@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Amogus Party</h1>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>@ViewBag.Greeting,Kutse pole!</h2>
+        <p>
+            @ViewBag.Message
+            Tere tulemas, kalis sõber!
+            <img src="~/Images/amogus.png" />
+        </p>
+        <p>@Html.ActionLink("Vastan", "Ankeet", "Ankeet", new { @class = "btn btn-primary" })</p>
+    </div>
+
+</div>
