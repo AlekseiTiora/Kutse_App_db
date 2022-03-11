@@ -114,6 +114,36 @@ namespace Kutse_App.Controllers
             db.SaveChanges();
             return RedirectToAction("Guest");
         }
+        [HttpGet]
+        public ActionResult Accept()
+        {
+            IEnumerable<Guest> guests = db.Guests.Where(g => g.WillAttend == true);
+            return View(guests);
+        }
+        public void Thanks(Guest guest)
+        {
+            WebMail.Send(guest.Email, "Meeldetuletus ", guest.Name + " ara unusta. Pidu toimub 8.03.22! Sind ootavad väga" + ((guest.WillAttend ?? false) ? " tuleb peole: " : " ei tule peole "));
+        }
+
+        PiduContext pd = new PiduContext();
+        [Authorize]
+        public ActionResult Pidus()
+        {
+            IEnumerable<Pidu> pidus = pd.Pidus;
+            return View(pidus);
+        }
+        public ActionResult Createp()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Createp(Pidu pidu)
+        {
+            pd.Pidus.Add(pidu);
+            pd.SaveChanges();
+            return RedirectToAction("Pidus");
+        }
+
         public void E_mail(Guest guest)
         {
             try
@@ -125,8 +155,6 @@ namespace Kutse_App.Controllers
                 WebMail.Password = "2.kuursus tarpv20";
                 WebMail.From = "programmeeriminetthk2@gmail.com";
                 WebMail.Send(guest.Email, "Vastus kutsele ", guest.Name + " vastas" + ((guest.WillAttend ?? false) ? " tuleb peole: " : " ei tule peole "));
-                WebMail.Send(guest.Email, "Meeldetuletus", guest.Name + ", ara unusta. Pidu toimub 12.03.22! Sind ootavad väga!",
-                    null, "aleksei.tiora@gmail.com"); 
                  ViewBag.Message = "Kiri on saatnud";
 
             }

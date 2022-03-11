@@ -10,12 +10,13 @@
     @if (Model.WillAttend == true)
     {
         @: Mul on väga hea meel, et tulet
-        <p>
-            <br>
-            <img src="~/Images/vesel.png" />
-            <br>
-            @Html.ActionLink("Meeldetuletus", "Thanks", "Thanks", new { @class = "btn btn-primary" })
-        </p>
+    <p>
+        <br>
+        <img src="~/Images/vesel.png" />
+        <br>
+        @Html.ActionLink("Meeldetuletus", "Thanks", "Home", new { @class = "btn btn-primary" })
+        
+    </p>
     }
     //
     else
@@ -25,5 +26,4 @@
         <img src="~/Images/grust.png" />
     }
 </div>
-<h2>Thanks</h2>
 
