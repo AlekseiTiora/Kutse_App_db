@@ -254,6 +254,10 @@
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Home\Pidus.cshtml" />
     <Content Include="Views\Home\Createp.cshtml" />
+    <Content Include="Views\Home\Deletep.cshtml" />
+    <Content Include="Views\Home\Editp.cshtml" />
+    <Content Include="Views\Home\GuestsCome.cshtml" />
+    <Content Include="Views\Home\GuestsNotCome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

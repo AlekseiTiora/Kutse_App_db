@@ -1,17 +1,13 @@
 ﻿@model IEnumerable<Kutse_App.Models.Guest>
 
 @{
-    ViewBag.Title = "Külalised";
+    ViewBag.Title = "GuestsCome";
 }
 
-<h2>Külalised</h2>
+<h2>GuestsCome</h2>
 
 <p>
     @Html.ActionLink("Loo uus", "Create")
-    <br>
-    @Html.ActionLink("Tulevad", "GuestsCome")
-    @Html.ActionLink("Loobusid", "GuestsNotCome")
-
 </p>
 <table class="table">
     <tr>
@@ -44,10 +40,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.WillAttend)
         </td>
-        <td>
-            @Html.ActionLink("Muutma", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Kustutama", "Delete", new { id=item.Id })
-        </td>
+
     </tr>
 }
 

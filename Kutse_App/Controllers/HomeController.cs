@@ -14,6 +14,7 @@ namespace Kutse_App.Controllers
     {
         public ActionResult Index()
         {
+            
             string pidu = "";
             if(DateTime.Now.Month==1){pidu = "Jaanuari pidu";}
             else if (DateTime.Now.Month == 2){pidu = "Baarmeni päev pidu"; }
@@ -43,6 +44,8 @@ namespace Kutse_App.Controllers
 
             return View();
         }
+        public static string email;
+        public static string name;
         [HttpGet]
         public ViewResult Ankeet()
         {
@@ -54,6 +57,8 @@ namespace Kutse_App.Controllers
             E_mail(guest);
             if(ModelState.IsValid)
             {
+                email = guest.Email;
+                name = guest.Name;
                 db.Guests.Add(guest);
                 db.SaveChanges();
                 ViewBag.Greeting = guest.Email;
@@ -120,9 +125,21 @@ namespace Kutse_App.Controllers
             IEnumerable<Guest> guests = db.Guests.Where(g => g.WillAttend == true);
             return View(guests);
         }
+        //2
+        [Authorize]
+        public ActionResult GuestsCome()
+        {
+            IEnumerable<Guest> guests = db.Guests.Where(g => g.WillAttend == true);
+            return View(guests);
+        }
+        public ActionResult GuestsNotCome()
+        {
+            IEnumerable<Guest> guests = db.Guests.Where(g => g.WillAttend == false);
+            return View(guests);
+        }
         public void Thanks(Guest guest)
         {
-            WebMail.Send(guest.Email, "Meeldetuletus ", guest.Name + " ara unusta. Pidu toimub 8.03.22! Sind ootavad väga" + ((guest.WillAttend ?? false) ? " tuleb peole: " : " ei tule peole "));
+            WebMail.Send(email, "Meeldetuletus ", name + " ara unusta. Pidu toimub  Sind ootavad väga" + ((guest.WillAttend ?? false) ? " tuleb peole: " : " ei tule peole "));
         }
 
         PiduContext pd = new PiduContext();
@@ -132,6 +149,7 @@ namespace Kutse_App.Controllers
             IEnumerable<Pidu> pidus = pd.Pidus;
             return View(pidus);
         }
+        //pidu
         public ActionResult Createp()
         {
             return View();
@@ -140,6 +158,46 @@ namespace Kutse_App.Controllers
         public ActionResult Createp(Pidu pidu)
         {
             pd.Pidus.Add(pidu);
+            pd.SaveChanges();
+            return RedirectToAction("Pidus");
+        }
+
+        public ActionResult Deletep(int id)
+        {
+            Pidu p = pd.Pidus.Find(id);
+            if (p == null)
+            {
+                return HttpNotFound();
+            }
+            return View(p);
+        }
+        [HttpPost, ActionName("Deletep")]
+        public ActionResult DeleteConfirmedp(int id)
+        {
+            Pidu p = pd.Pidus.Find(id);
+            if (p == null)
+            {
+                return HttpNotFound();
+            }
+            pd.Pidus.Remove(p);
+            pd.SaveChanges();
+            return RedirectToAction("Pidus");
+        }
+
+        [HttpGet]
+        public ActionResult Editp(int? id)
+        {
+            Pidu p = pd.Pidus.Find(id);
+            if (p == null)
+            {
+                return HttpNotFound();
+            }
+            return View(p);
+        }
+        [HttpPost, ActionName("Editp")]
+        public ActionResult EditConfirmedp(Pidu p)
+        {
+            pd.Entry(p).State = System.Data.Entity.EntityState.Modified;
             pd.SaveChanges();
             return RedirectToAction("Pidus");
         }
