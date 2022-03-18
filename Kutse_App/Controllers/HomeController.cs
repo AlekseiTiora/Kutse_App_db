@@ -137,9 +137,22 @@ namespace Kutse_App.Controllers
             IEnumerable<Guest> guests = db.Guests.Where(g => g.WillAttend == false);
             return View(guests);
         }
-        public void Thanks(Guest guest)
+        public void Thanks(string email)
         {
-            WebMail.Send(email, "Meeldetuletus ", name + " ara unusta. Pidu toimub  Sind ootavad väga" + ((guest.WillAttend ?? false) ? " tuleb peole: " : " ei tule peole "));
+            WebMail.SmtpServer = "smtp.gmail.com";
+            WebMail.SmtpPort = 587;
+            WebMail.EnableSsl = true;
+            WebMail.UserName = "programmeeriminetthk2@gmail.com";
+            WebMail.Password = "2.kuursus tarpv20";
+            WebMail.From = "programmeeriminetthk2@gmail.com";
+            WebMail.Send(email, "Meeldetuletus "," Meeletame teile, et te tulete pidule");
+
+        }
+        [HttpGet]
+        public ActionResult Meeldetuletus()
+        {
+            Thanks(email);
+            return View();
         }
 
         PiduContext pd = new PiduContext();
@@ -212,7 +225,7 @@ namespace Kutse_App.Controllers
                 WebMail.UserName = "programmeeriminetthk2@gmail.com";
                 WebMail.Password = "2.kuursus tarpv20";
                 WebMail.From = "programmeeriminetthk2@gmail.com";
-                WebMail.Send(guest.Email, "Vastus kutsele ", guest.Name + " vastas" + ((guest.WillAttend ?? false) ? " tuleb peole: " : " ei tule peole "));
+                WebMail.Send("programmeeriminetthk2@gmail.com", "Vastus kutsele ", guest.Name + " vastas" + ((guest.WillAttend ?? false) ? " tuleb peole: " : " ei tule peole "));
                  ViewBag.Message = "Kiri on saatnud";
 
             }

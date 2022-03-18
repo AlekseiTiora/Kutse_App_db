@@ -258,6 +258,7 @@
     <Content Include="Views\Home\Editp.cshtml" />
     <Content Include="Views\Home\GuestsCome.cshtml" />
     <Content Include="Views\Home\GuestsNotCome.cshtml" />
+    <Content Include="Views\Home\Meeldetuletus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
